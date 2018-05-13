@@ -2,6 +2,7 @@
 #include <time.h>
 #include <tuple>
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ const int width = 10 ;
 const int height = 10 ;
 
 int ENDGAME = 0;
-int BULLETS = 20;
+int BULLETS = 30;
 
 
 class GAME
@@ -186,8 +187,6 @@ public:
 
         if ( MAP10x10[pos_guess_player.x - 1][pos_guess_player.y - 1] == CELL_TANK )
         {
-
-
             MAP10x10_COPY[pos_guess_player.x - 1][pos_guess_player.y - 1] = CELL_TANKBOOMED;
 
 //            MAP10x10[pos_guess_player.x - 1][pos_guess_player.y - 1] = CELL_EMPTY ;
@@ -235,15 +234,7 @@ public:
 
 
 
-
-
-
-
-
-
-
-
-
+void clearScreen();
 
 
 int main()
@@ -253,44 +244,53 @@ int main()
     GAME MAP;
     MAP.SETMAP10x10();
     MAP.SETTANK();
-    MAP.voidPrint10x10MAP();
+//    MAP.voidPrint10x10MAP();
+//    cout << endl;
 
-    cout << endl;
+    clearScreen();
 
     MAP.SETMAP10x10_COPY();
     MAP.voidPrint10x10MAP_COPY();
 
     cout << endl;
 
-//    MAP.SETTRUCTOADO();
-//    MAP.PRINTTRUCTOADO();
-
     MAP.END_GAME();
 
     do
     {
+
         MAP.BULLETS_STATUS();
         MAP.GETPOSITION();
-
+        BULLETS-- ;
+        clearScreen();
 
         MAP.voidPrint10x10MAP_COPY();
         cout << endl;
 
-        BULLETS-- ;
+
 
         MAP.GAME_STATUS();
 
 
+
+
     } while ( ENDGAME < TANKHEALTH && BULLETS != 0 );
-
-
-
-
-
-
-
-//    MAP.SETMAP10x10_COPY();
-//    MAP.voidPrint10x10MAP_COPY();
-//    MAP.GETPOSITION();
-//    MAP.voidPrint10x10MAP_COPY();
 }
+
+void clearScreen() {
+    const int PATCH_LINES = 15;
+	for (int i = 0; i < PATCH_LINES; i++) cout << endl;
+}
+
+
+//void gotoxy(short x,short y)
+//{
+//HANDLE hConsoleOutput;
+//COORD Cursor_an_Pos = { x,y};
+//hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+//SetConsoleCursorPosition(hConsoleOutput , Cursor_an_Pos);
+//}
+
+
+
+
