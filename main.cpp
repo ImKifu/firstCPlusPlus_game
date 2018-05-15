@@ -20,6 +20,9 @@ const int TANKHEALTH = 9 ;
 const int width = 10 ;
 const int height = 10 ;
 
+ 
+
+
 int ENDGAME = 0;
 int BULLETS = 30;
 
@@ -30,62 +33,65 @@ class GAME
 
 public:
 
-//    int TRUCTOADO[ width +1 ][ height +1 ];
-//
-//    void SETTRUCTOADO()
-//    {
-//        for( int i=0; i<=width; i++)
-//        {
-//            for( int j=0; j<=height; j++)
-//            {
-//                if( i==0 )
-//                {
-//                    for( int k=0; k<=width; k++ )
-//                    {
-//                        TRUCTOADO[i][k] = k;
-//                    }
-//                }
-//
-//                if( j==0 )
-//                {
-//                    for( int h=0; h<=height; h++ )
-//                    {
-//                        TRUCTOADO[h][j] = h;
-//                    }
-//
-//                }
-//
-//                if( i!=0 && j!=0 )
-//                {
-//                    for( int i=1; i<=width; i++)
-//                    {
-//                        for( int j=1; j<=height; j++)
-//                        {
-//                            TRUCTOADO[i][j]=CELL_EMPTY ;
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//        }
-//    }
-//
-//    void PRINTTRUCTOADO()
-//    {
-//        for( int i=0; i<=width; i++ )
-//        {
-//            for( int j=0; j<=height; j++)
-//            {
-//                cout << TRUCTOADO[i][j] << " " ;
-//            }
-//            cout << endl;
-//        }
-//
-//    }
-
+    int TRUCTOADO[ width +1 ][ height +1 ];
     int MAP10x10_COPY[width][height];
+    int MAP10x10[width][height];
+
+
+    void SETTRUCTOADO()
+    {
+        for( int i=0; i<=width; i++)
+        {
+            for( int j=0; j<=height; j++)
+            {
+                if( i==0 )
+                {
+                    for( int k=0; k<=width; k++ )
+                    {
+                        TRUCTOADO[i][k] = k+1 ;
+                    }
+                }
+
+                if( j==10 )
+                {
+                    for( int h=0; h<=height; h++ )
+                    {
+                        TRUCTOADO[h][j] = h;
+                    }
+
+                }
+
+                if( i!=0 && j!=11 )
+                {
+                    for( int i=1; i<=width; i++)
+                    {
+                        for( int j=0; j<height; j++)
+                        {
+                            TRUCTOADO[i][j]=CELL_EMPTY ;
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+    }
+
+    void PRINTTRUCTOADO()
+    {
+        for( int i=0; i<=width; i++ )
+        {
+            for( int j=0; j<=height; j++)
+            {
+                cout << TRUCTOADO[i][j] << " " ;
+            }
+            cout << endl;
+        }
+
+    }
+
+
 
     void SETMAP10x10_COPY()
     {
@@ -110,7 +116,7 @@ public:
         }
     }
 
-    int MAP10x10[width][height];
+
 
     void SETMAP10x10()
     {
@@ -195,24 +201,49 @@ public:
 
     }
 
-    bool END_GAME()
-    {
-        for( int i=0 ; i<width; i++ )
-        {
-            for( int j=0; j<height; j++ )
-            {
-                if( MAP10x10[i][j] == CELL_EMPTY )
-                    return false;
-            }
-        }
-        return true;
 
+    void GETPOSITION_TRUCTOADO()
+    {
+        Position_Guess pos_guess_player = GETPLAYERGUESS();
+
+        if ( MAP10x10[pos_guess_player.x - 1][pos_guess_player.y - 1] == CELL_EMPTY )
+        {
+
+            TRUCTOADO[pos_guess_player.x ][pos_guess_player.y - 1] = CELL_BOOM;
+        }
+
+        if ( MAP10x10[pos_guess_player.x - 1][pos_guess_player.y - 1] == CELL_TANK )
+        {
+            TRUCTOADO[pos_guess_player.x ][pos_guess_player.y - 1] = CELL_TANKBOOMED;
+
+            MAP10x10[pos_guess_player.x - 1][pos_guess_player.y - 1] = CELL_EMPTY ;
+            ENDGAME++;
+        }
 
     }
+
+
+
+
+
+
+//    bool END_GAME()
+//    {
+//        for( int i=0 ; i<width; i++ )
+//        {
+//            for( int j=0; j<height; j++ )
+//            {
+//                if( MAP10x10[i][j] == CELL_EMPTY )
+//                    return false;
+//            }
+//        }
+//        return true;
+//    }
 
     void BULLETS_STATUS()
     {
         cout << " Bullets left: " << BULLETS << endl;
+        cout << " Health Tank Points left: " << TANKHEALTH - ENDGAME << endl ;
 
     }
 
@@ -223,7 +254,8 @@ public:
             cout << " Congratulations <3 <3 <3 " << endl << " You are the winner " ;
         }
         if( BULLETS == 0 ){
-            cout << " Sorry, You lose :< " ;
+            cout << " Sorry, you are running out of armor " << endl;
+            cout << "You lose :< " ;
         }
 
 
@@ -239,40 +271,67 @@ void clearScreen();
 
 int main()
 {
-    srand(time(0));
 
+//    enum LEVER
+//    {
+//        Easy = 1,
+//        Normal = 2,
+//        Hard = 3
+//    };
+//
+//    int option;
+//    cin >> option;
+//    switch( option ){
+//        case 1:
+//        {
+//            int *a = &width;
+//            a = 10;
+//            int *b = &height;
+//            b = 10;
+//            int *c = &BULLETS;
+//            c = 40;
+//            break;
+//        }
+//
+//
+//    }
+
+
+
+
+
+    srand(time(0));
     GAME MAP;
+
     MAP.SETMAP10x10();
     MAP.SETTANK();
-//    MAP.voidPrint10x10MAP();
-//    cout << endl;
+    MAP.voidPrint10x10MAP();
 
     clearScreen();
 
-    MAP.SETMAP10x10_COPY();
-    MAP.voidPrint10x10MAP_COPY();
+    MAP.SETTRUCTOADO();
+    MAP.PRINTTRUCTOADO();
 
     cout << endl;
 
-    MAP.END_GAME();
+//    MAP.END_GAME();
 
     do
     {
 
         MAP.BULLETS_STATUS();
-        MAP.GETPOSITION();
+//        MAP.GETPOSITION();
+        MAP.GETPOSITION_TRUCTOADO();
+
         BULLETS-- ;
         clearScreen();
 
-        MAP.voidPrint10x10MAP_COPY();
+//        MAP.voidPrint10x10MAP_COPY();
+        MAP.PRINTTRUCTOADO();
+//        MAP.voidPrint10x10MAP();
         cout << endl;
 
-
-
         MAP.GAME_STATUS();
-
-
-
 
     } while ( ENDGAME < TANKHEALTH && BULLETS != 0 );
 }
@@ -290,6 +349,22 @@ void clearScreen() {
 //hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 //SetConsoleCursorPosition(hConsoleOutput , Cursor_an_Pos);
 //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
