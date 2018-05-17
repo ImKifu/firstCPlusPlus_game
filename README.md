@@ -1,2 +1,3 @@
 # firstCPlusPlus_game
-Just for fun 
+
+xem brand add_menu de update
