@@ -3,8 +3,18 @@
 #include <tuple>
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
+
 
 using namespace std;
+
+enum LEVER
+{
+    Easy = 1,
+    Normal = 2,
+    Hard = 3
+};
+
 
 enum CellType
 {
@@ -20,7 +30,7 @@ const int TANKHEALTH = 9 ;
 const int width = 10 ;
 const int height = 10 ;
 
- 
+
 
 
 int ENDGAME = 0;
@@ -173,7 +183,8 @@ public:
 
         cin >> pos_guess_player.x >> pos_guess_player.y ;
 
-        if(  pos_guess_player.x > width  ||  pos_guess_player.y > height  ){
+        if(  pos_guess_player.x > width  ||  pos_guess_player.y > height  )
+        {
             cout << " You have shooted outside the map. " << endl
                  << " Please be more carefull because you will lose your bullet. " << endl ;
         }
@@ -250,10 +261,12 @@ public:
 
     void GAME_STATUS()
     {
-        if( ENDGAME == TANKHEALTH ){
+        if( ENDGAME == TANKHEALTH )
+        {
             cout << " Congratulations <3 <3 <3 " << endl << " You are the winner " ;
         }
-        if( BULLETS == 0 ){
+        if( BULLETS == 0 )
+        {
             cout << " Sorry, you are running out of armor " << endl;
             cout << "You lose :< " ;
         }
@@ -272,33 +285,51 @@ void clearScreen();
 int main()
 {
 
-//    enum LEVER
-//    {
-//        Easy = 1,
-//        Normal = 2,
-//        Hard = 3
-//    };
-//
-//    int option;
-//    cin >> option;
-//    switch( option ){
-//        case 1:
-//        {
-//            int *a = &width;
-//            a = 10;
-//            int *b = &height;
-//            b = 10;
-//            int *c = &BULLETS;
-//            c = 40;
-//            break;
-//        }
-//
-//
-//    }
 
 
+Welcome:
+    clearScreen();
+
+    cout << " Day la huong dan ......... " << endl;
+    cout << " nhap vao so tu 1-3 de chon muc do" << endl ;
+
+    cout << "Easy   = 1" << endl
+         << "Normal = 2" << endl
+         << "Hard   = 3" << endl
+         << "Please enter your choice" <<  endl;
+
+    int option;
+    cin >> option;
+    switch( option )
+    {
+    case 1:
+    {
+        int *c = &BULLETS;
+        *c = 40;
+        break;
+    }
+    case 2:
+    {
+        int *c = &BULLETS;
+        *c = 30;
+        break;
+    }
+    case 3:
+    {
+        int *c = &BULLETS;
+        *c = 20;
+        break;
+    }
+
+    }
+    if ( option == 1 || option == 2 || option == 3 )
+    {
+        goto run;
+    }
+    else goto Welcome;
 
 
+run:
 
     srand(time(0));
     GAME MAP;
@@ -308,6 +339,10 @@ int main()
     MAP.voidPrint10x10MAP();
 
     clearScreen();
+
+
+
+
 
     MAP.SETTRUCTOADO();
     MAP.PRINTTRUCTOADO();
@@ -333,12 +368,14 @@ int main()
 
         MAP.GAME_STATUS();
 
-    } while ( ENDGAME < TANKHEALTH && BULLETS != 0 );
+    }
+    while ( ENDGAME < TANKHEALTH && BULLETS != 0 );
 }
 
-void clearScreen() {
-    const int PATCH_LINES = 15;
-	for (int i = 0; i < PATCH_LINES; i++) cout << endl;
+void clearScreen()
+{
+    const int PATCH_LINES = 20;
+    for (int i = 0; i < PATCH_LINES; i++) cout << endl;
 }
 
 
@@ -349,23 +386,4 @@ void clearScreen() {
 //hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 //SetConsoleCursorPosition(hConsoleOutput , Cursor_an_Pos);
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
